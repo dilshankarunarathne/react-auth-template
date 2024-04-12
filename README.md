@@ -1,5 +1,4 @@
-# Defect Mango Identification and Classification
-
+# React Auth Template
 This is a project to identify and classify mango defects using machine learning. This project is a part of the 
 final year project of the Department of Computer Science, Eastern University of Sri Lanka.
 
