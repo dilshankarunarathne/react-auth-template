@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from './api/axios';
@@ -170,8 +171,7 @@ const Register = () => {
                     <p>
                         Already registered?<br />
                         <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign In</a>
+                            <Link to="/login">Sign In</Link>
                         </span>
                     </p>
                 </section>
