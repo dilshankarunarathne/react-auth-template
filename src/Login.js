@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import AuthContext from "./context/AuthProvider";
 
 import axios from './api/axios';
-const LOGIN_URL = '/auth';
+const LOGIN_URL = 'http://localhost:8000/auth/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -24,20 +25,22 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            const formData = new FormData();
+            formData.append('username', user);
+            formData.append('password', pwd);
+    
+            const response = await axios.post(LOGIN_URL, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: false
+            });
+
+            console.log(JSON.stringify(response?.data.access_token));
+    
+            const accessToken = response.data.access_token;
+    
+            setAuth({ user, pwd, accessToken });
             setUser('');
             setPwd('');
             setSuccess(true);
@@ -51,6 +54,7 @@ const Login = () => {
             } else {
                 setErrMsg('Login Failed');
             }
+            console.log(err);
             errRef.current.focus();
         }
     }
@@ -94,8 +98,7 @@ const Login = () => {
                     <p>
                         Need an Account?<br />
                         <span className="line">
-                            {/*put router link here*/}
-                            <a href="#">Sign Up</a>
+                            <Link to="/signup">Sign Up</Link>
                         </span>
                     </p>
                 </section>
